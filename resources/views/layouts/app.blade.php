@@ -16,7 +16,9 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg sticky-top glass-card mx-3 mt-3 px-4">
+    <div id="scroll-progress"></div>
+    
+    <nav class="navbar navbar-expand-lg sticky-top glass-card mx-3 mt-3 px-4" data-aos="fade-down">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="/">
                 <span class="gradient-text">UMAKANT</span>.DEV

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container py-5">
-    <div class="text-center mb-5 mt-5">
+    <div class="text-center mb-5 mt-5" data-aos="fade-down">
         <h6 class="text-primary fw-bold text-uppercase mb-3">Service Excellence</h6>
         <h1 class="display-4 fw-bold mb-4">Solutions for the <span class="gradient-text">Modern Web</span></h1>
         <p class="text-muted mx-auto" style="max-width: 700px;">We provide a wide range of services to help you build, grow, and scale your online presence with cutting-edge technology.</p>
@@ -12,7 +12,7 @@
 
     <div class="row g-4 mb-5">
         <!-- Web Development -->
-        <div class="col-lg-4">
+        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
             <div class="glass-card p-5 h-100">
                 <div class="service-icon text-primary"><i class="fas fa-code"></i></div>
                 <h3 class="fw-bold mb-3">Full-Stack Development</h3>
@@ -26,7 +26,7 @@
         </div>
 
         <!-- UI/UX -->
-        <div class="col-lg-4">
+        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
             <div class="glass-card p-5 h-100">
                 <div class="service-icon text-secondary"><i class="fas fa-layer-group"></i></div>
                 <h3 class="fw-bold mb-3">UI/UX Design</h3>
@@ -40,7 +40,7 @@
         </div>
 
         <!-- SEO -->
-        <div class="col-lg-4">
+        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
             <div class="glass-card p-5 h-100">
                 <div class="service-icon text-info"><i class="fas fa-search-dollar"></i></div>
                 <h3 class="fw-bold mb-3">SEO & Analytics</h3>
@@ -55,7 +55,7 @@
     </div>
 
     <!-- CTA Section -->
-    <div class="glass-card p-5 text-center my-5 bg-gradient-premium">
+    <div class="glass-card p-5 text-center my-5 bg-gradient-premium" data-aos="zoom-in">
         <h2 class="fw-bold mb-4">Ready to kickstart your project?</h2>
         <p class="mb-4">Let's discuss your requirements and build something amazing together.</p>
         <a href="{{ route('contact') }}" class="btn btn-premium">Get a Free Consultation</a>
