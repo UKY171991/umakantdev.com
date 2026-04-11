@@ -27,16 +27,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="#services">Services</a>
+                        <a class="nav-link px-3 {{ request()->routeIs('services') ? 'active text-primary' : '' }}" href="{{ route('services') }}">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="#portfolio">Portfolio</a>
+                        <a class="nav-link px-3 {{ request()->routeIs('portfolio') ? 'active text-primary' : '' }}" href="{{ route('portfolio') }}">Portfolio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="#contact">Contact</a>
+                        <a class="nav-link px-3 {{ request()->routeIs('about') ? 'active text-primary' : '' }}" href="{{ route('about') }}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 {{ request()->routeIs('contact') ? 'active text-primary' : '' }}" href="{{ route('contact') }}">Contact</a>
                     </li>
                 </ul>
-                <a href="#contact" class="btn btn-premium ms-lg-3">Hire Me</a>
+                <a href="{{ route('contact') }}" class="btn btn-premium ms-lg-3">Hire Me</a>
             </div>
         </div>
     </nav>
