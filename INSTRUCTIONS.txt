@@ -47,6 +47,7 @@ D. Create Admin User
 --------------------------------------------------
 - Route: /blog
 - Description: A premium, glassmorphism-styled blog listing page.
+- Admin URL: /umakant (Dashboard for system management)
 - Homepage: A "Latest Insights" section has been added to the homepage to drive traffic to the blog.
 
 --------------------------------------------------

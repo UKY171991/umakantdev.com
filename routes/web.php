@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -70,6 +71,8 @@ Route::get('/setup-admin', function () {
         return "❌ Error: " . $e->getMessage();
     }
 });
+
+Route::get('/umakant', [AdminController::class, 'index'])->name('admin.dashboard');
 
 Route::get('/contact', function () {
     return view('contact');
