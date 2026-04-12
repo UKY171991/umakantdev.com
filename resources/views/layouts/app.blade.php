@@ -97,11 +97,18 @@
         @yield('content')
     </main>
 
-    <footer class="mt-5 pt-5 pb-3 footer-premium mx-3 mb-3 px-3">
-        <div class="container pb-4">
-            <div class="row g-4">
+    <footer class="mt-5 py-5 footer-premium mx-3 mb-3 px-3">
+        <div class="container">
+            <div class="row g-4 align-items-center mb-4">
+                <div class="col-lg-12 text-center mb-4">
+                    <a class="navbar-brand fw-bold d-inline-block fs-2" href="/">
+                        <span class="gradient-text">UMAKANT</span>.DEV
+                    </a>
+                </div>
+            </div>
+            <div class="row g-4 mb-5">
                 <!-- Services Column -->
-                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <div class="col-lg-3 col-md-6">
                     <h5 class="fw-bold mb-4 text-white text-uppercase small tracking-widest">Our Services</h5>
                     <ul class="list-unstyled footer-links">
                         <li class="mb-2"><a href="{{ route('services') }}"><i class="fas fa-chevron-right small me-2 opacity-50"></i>Web Designing</a></li>
@@ -138,11 +145,8 @@
 
                 <!-- Branding & Trust Column -->
                 <div class="col-lg-4 col-md-6 text-lg-end">
-                    <a class="navbar-brand fw-bold d-block mb-3 fs-3" href="/">
-                        <span class="gradient-text">UMAKANT</span>.DEV
-                    </a>
                     <p class="text-muted small mb-4">
-                        We are a full-service digital agency delivering expert SEO, award-winning design, and high-performance development.
+                        We are a full-service digital agency delivering expert SEO, award-winning design, and high-performance development to grow your business online.
                     </p>
                     <div class="d-flex gap-3 justify-content-lg-end mb-4">
                         <a href="#" class="btn btn-outline-light rounded-circle p-0" style="width: 35px; height: 35px; line-height: 33px; text-align: center;"><i class="fab fa-facebook-f small"></i></a>
@@ -184,19 +188,28 @@
         </div>
     </footer>
     <!-- Floating Audit Sidebar -->
-    <div class="audit-sidebar d-none d-md-block">
-        <div class="audit-trigger">
+    <div class="audit-sidebar d-none d-md-block" style="position: fixed; right: -280px; top: 50%; transform: translateY(-50%); z-index: 9999; width: 280px; transition: right 0.5s ease;">
+        <div class="audit-trigger" style="position: absolute; left: -45px; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #6366f1, #ec4899); color: white; padding: 20px 10px; border-radius: 12px 0 0 12px; font-weight: 700; writing-mode: vertical-rl; cursor: pointer; white-space: nowrap;">
             <i class="fas fa-search-dollar mb-2"></i> REQUEST FREE AUDIT
         </div>
         <div class="audit-content">
             <h6 class="fw-bold text-white">Free Website Audit</h6>
             <form>
-                <input type="text" class="form-control" placeholder="Your Website URL" required>
-                <input type="email" class="form-control" placeholder="Email Address" required>
+                <input type="text" class="form-control mb-2" placeholder="Your Website URL" required>
+                <input type="email" class="form-control mb-2" placeholder="Email Address" required>
                 <button type="submit" class="btn btn-premium w-100 py-3">Send Request</button>
             </form>
         </div>
     </div>
+
+    <script>
+        // Simple JS to handle the hover if CSS transition is tricky
+        const sidebar = document.querySelector('.audit-sidebar');
+        if(sidebar) {
+            sidebar.addEventListener('mouseenter', () => sidebar.style.right = '0');
+            sidebar.addEventListener('mouseleave', () => sidebar.style.right = '-280px');
+        }
+    </script>
 
 </body>
 </html>
