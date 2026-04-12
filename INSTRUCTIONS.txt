@@ -1,30 +1,63 @@
-THINKBIZ SYSTEM MAINTENANCE INSTRUCTIONS
-========================================
+==================================================
+THINKBIZ PORTFOLIO - SYSTEM INSTRUCTIONS
+==================================================
 
-Utility URLs for system management:
+Project: ThinkBiz / UmakantDev Portfolio
+Developer: Antigravity AI
+Date: April 12, 2026
 
-1. Database Migration:
-   URL: /run-migrate
-   Function: Runs 'php artisan migrate --force'. 
-   Use this whenever you add new migrations to update the database schema.
+--------------------------------------------------
+1. DEPLOYMENT & INSTALLATION (Server Setup)
+--------------------------------------------------
+For fresh installations or after uploading files to a new server:
 
-2. Composer Update:
-   URL: /run-composer
-   Function: Runs 'composer update'.
-   Warning: This may take several minutes. Ensure your server allows shell_exec and long execution times.
+URL: /install.php
+This one-click installer performs:
+- Automatic .env creation (if missing)
+- Professional cleanup of bootstrap caches
+- Generation of Application Encryption Key
+- Running Database Migrations
+- Linking Storage (Storage Link)
+- Final Configuration Caching
 
-3. Clear Cache:
+--------------------------------------------------
+2. MAINTENANCE & UTILITY ROUTES
+--------------------------------------------------
+The following URLs are available for ongoing management:
+
+A. Clear All Cache
    URL: /clear-cache
-   Function: Runs config:clear, cache:clear, view:clear, and route:clear.
-   Use this if you see errors like "MissingAppKeyException" or if site changes aren't appearing.
+   Used for: Fixing "Internal Server Error" or when changes don't appear.
 
-TROUBLESHOOTING:
-- If you see "No application encryption key has been specified":
-  1. Trigger /clear-cache first.
-  2. If it persists, ensure APP_KEY is set in your .env file.
-  3. You can run 'php artisan key:generate' via terminal if you have access.
+B. Database Migrations
+   URL: /run-migrate
+   Used for: Updating the database schema manually.
 
-SECURITY WARNING:
-These URLs are currently public. Once you have finished maintenance, it is highly recommended to:
-- Comment them out in routes/web.php
-- Protect them with basic auth or a secret token query parameter.
+C. Composer Update
+   URL: /run-composer
+   Used for: Running 'composer update' via browser. (May take a few minutes)
+
+--------------------------------------------------
+3. NEW FEATURES: BLOG & INSIGHTS
+--------------------------------------------------
+- Route: /blog
+- Description: A premium, glassmorphism-styled blog listing page.
+- Homepage: A "Latest Insights" section has been added to the homepage to drive traffic to the blog.
+
+--------------------------------------------------
+4. SEO & URL STANDARDS
+--------------------------------------------------
+- Navigation: All URLs are designed to be SEO Friendly.
+- Public Folder: The project includes a root .htaccess that removes the need for '/public/' in the URL.
+- Metadata: SEO meta tags (Description, Keywords) are implemented in the main layout.
+
+--------------------------------------------------
+5. SECURITY RECOMMENDATIONS
+--------------------------------------------------
+- After completing installation and maintenance, please consider:
+   A. Deleting 'public/install.php' from the server.
+   B. Commenting out the utility routes in 'routes/web.php' for production security.
+
+--------------------------------------------------
+End of Instructions
+--------------------------------------------------
