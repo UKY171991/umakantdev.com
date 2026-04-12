@@ -3,11 +3,23 @@
 @section('title', 'Contact Us | Start Your Project Today')
 
 @section('content')
+<div class="breadcrumb-section py-5 bg-dark bg-opacity-25 mb-5">
+    <div class="container text-center py-4">
+        <h1 class="display-4 fw-bold text-white mb-2">Contact <span class="gradient-text">Us</span></h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/" class="text-primary text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active text-muted" aria-current="page">Contact</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
 <div class="container py-5">
-    <div class="text-center mb-5 mt-5">
+    <div class="text-center mb-5" data-aos="fade-down">
         <h6 class="text-primary fw-bold text-uppercase mb-3">Get In Touch</h6>
-        <h1 class="display-4 fw-bold mb-4">Let's Talk <span class="gradient-text">Business</span></h1>
-        <p class="text-muted mx-auto" style="max-width: 600px;">Ready to elevate your brand? Fill out the form below and we'll get back to you within 24 hours.</p>
+        <h2 class="display-5 fw-bold mb-4 text-white">Let's Talk <span class="gradient-text">Business</span></h2>
+        <p class="text-muted mx-auto" style="max-width: 700px;">Ready to elevate your brand? Fill out the form below and we'll get back to you within 24 hours.</p>
     </div>
 
     <div class="row g-5">
@@ -59,28 +71,29 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label text-muted small">First Name</label>
-                            <input type="text" class="form-control bg-dark text-white border-0 p-3" style="background: rgba(255,255,255,0.05) !important;">
+                            <input type="text" class="form-control p-3" placeholder="John">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label text-muted small">Last Name</label>
-                            <input type="text" class="form-control bg-dark text-white border-0 p-3" style="background: rgba(255,255,255,0.05) !important;">
+                            <input type="text" class="form-control p-3" placeholder="Doe">
                         </div>
                         <div class="col-12">
                             <label class="form-label text-muted small">Email Address</label>
-                            <input type="email" class="form-control bg-dark text-white border-0 p-3" style="background: rgba(255,255,255,0.05) !important;">
+                            <input type="email" class="form-control p-3" placeholder="john@example.com">
                         </div>
                         <div class="col-12">
                             <label class="form-label text-muted small">Project Type</label>
-                            <select class="form-select bg-dark text-white border-0 p-3" style="background: rgba(255,255,255,0.05) !important;">
-                                <option selected>Web Development</option>
-                                <option value="1">UI/UX Design</option>
-                                <option value="2">SEO Audit</option>
-                                <option value="3">Full Package</option>
+                            <select class="form-select p-3">
+                                <option disabled selected>Select a project type</option>
+                                <option>Web Development</option>
+                                <option>UI/UX Design</option>
+                                <option>SEO Strategy</option>
+                                <option>Full Package</option>
                             </select>
                         </div>
                         <div class="col-12">
                             <label class="form-label text-muted small">Message</label>
-                            <textarea class="form-control bg-dark text-white border-0 p-3" rows="5" style="background: rgba(255,255,255,0.05) !important;"></textarea>
+                            <textarea class="form-control p-3" rows="5" placeholder="Tell us about your project..."></textarea>
                         </div>
                         <div class="col-12 mt-4">
                             <button type="submit" class="btn btn-premium w-100 py-3">Send Message</button>
