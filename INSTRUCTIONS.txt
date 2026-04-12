@@ -52,7 +52,19 @@ C. Composer Update
 - Metadata: SEO meta tags (Description, Keywords) are implemented in the main layout.
 
 --------------------------------------------------
-5. SECURITY RECOMMENDATIONS
+5. TROUBLESHOOTING Common Errors
+--------------------------------------------------
+- If you see "No application encryption key has been specified":
+  1. Trigger /clear-cache first.
+  2. If it persists, ensure APP_KEY is set in your .env file or run /install.php.
+
+- If you see "Table 'sessions' doesn't exist":
+  1. This happens because the system is trying to use database sessions before the database is ready.
+  2. Change 'SESSION_DRIVER=database' to 'SESSION_DRIVER=file' in your .env file.
+  3. This will allow the site to load so you can run '/install.php' to create the necessary tables.
+
+--------------------------------------------------
+6. SECURITY RECOMMENDATIONS
 --------------------------------------------------
 - After completing installation and maintenance, please consider:
    A. Deleting 'public/install.php' from the server.
