@@ -1,0 +1,23 @@
+THINKBIZ SYSTEM MAINTENANCE INSTRUCTIONS
+========================================
+
+Utility URLs for system management:
+
+1. Database Migration:
+   URL: /run-migrate
+   Function: Runs 'php artisan migrate --force'. 
+   Use this whenever you add new migrations to update the database schema.
+
+2. Composer Update:
+   URL: /run-composer
+   Function: Runs 'composer update'.
+   Warning: This may take several minutes. Ensure your server allows shell_exec and long execution times.
+
+3. Clear Cache (Manual Instruction):
+   If you need to clear the system cache, you can create a similar route or run:
+   URL: /clear-cache (Recommended to add if needed)
+
+SECURITY WARNING:
+These URLs are currently public. Once you have finished maintenance, it is highly recommended to:
+- Comment them out in routes/web.php
+- Protect them with basic auth or a secret token query parameter.

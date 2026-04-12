@@ -80,6 +80,9 @@
                         </ul>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link px-3 {{ request()->routeIs('blog') ? 'active' : '' }}" href="{{ route('blog') }}">Blog</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link px-3 {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact Us</a>
                     </li>
                 </ul>
@@ -137,7 +140,7 @@
                     <h5 class="fw-bold mb-4 text-white text-uppercase small tracking-widest">Support</h5>
                     <ul class="list-unstyled footer-links">
                         <li class="mb-2"><a href="#"><i class="fas fa-chevron-right small me-2 opacity-50"></i>Testimonials</a></li>
-                        <li class="mb-2"><a href="#"><i class="fas fa-chevron-right small me-2 opacity-50"></i>SEO Articles</a></li>
+                        <li class="mb-2"><a href="{{ route('blog') }}"><i class="fas fa-chevron-right small me-2 opacity-50"></i>SEO Articles</a></li>
                         <li class="mb-2"><a href="#"><i class="fas fa-chevron-right small me-2 opacity-50"></i>Privacy Policy</a></li>
                         <li class="mb-2"><a href="#"><i class="fas fa-chevron-right small me-2 opacity-50"></i>Terms of Service</a></li>
                     </ul>

@@ -107,6 +107,50 @@
     </div>
 </div>
 
+<div class="py-5 bg-dark bg-opacity-25">
+    <div class="container py-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center align-items-md-end mb-5 text-center text-md-start gap-3" data-aos="fade-up">
+            <div>
+                <h6 class="text-primary fw-bold text-uppercase mb-3">Insights</h6>
+                <h2 class="display-5 fw-bold mb-0 text-white">Latest from <span class="gradient-text">our Blog</span></h2>
+            </div>
+            <a href="{{ route('blog') }}" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold">View All Posts &rarr;</a>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="glass-card h-100 overflow-hidden border-0">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="Blog 1" style="height: 200px; object-fit: cover;">
+                    <div class="p-4">
+                        <h5 class="fw-bold text-white mb-3">Top 10 Web Development Trends for 2026</h5>
+                        <p class="text-muted small mb-4">Discover the latest technologies and methodologies that are shaping the future...</p>
+                        <a href="{{ route('blog') }}" class="text-primary text-decoration-none fw-bold small">Read More <i class="fas fa-chevron-right ms-2 mt-1"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="glass-card h-100 overflow-hidden border-0">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="Blog 2" style="height: 200px; object-fit: cover;">
+                    <div class="p-4">
+                        <h5 class="fw-bold text-white mb-3">Maximizing ROI with Result-Driven SEO</h5>
+                        <p class="text-muted small mb-4">Learn how to strategize your SEO campaigns to achieve maximum return on investment...</p>
+                        <a href="{{ route('blog') }}" class="text-primary text-decoration-none fw-bold small">Read More <i class="fas fa-chevron-right ms-2 mt-1"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-block" data-aos="fade-up" data-aos-delay="300">
+                <div class="glass-card h-100 overflow-hidden border-0">
+                    <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="Blog 3" style="height: 200px; object-fit: cover;">
+                    <div class="p-4">
+                        <h5 class="fw-bold text-white mb-3">Social Media Marketing: Beyond the Posts</h5>
+                        <p class="text-muted small mb-4">Explore the deeper layers of social media marketing that drive engagement...</p>
+                        <a href="{{ route('blog') }}" class="text-primary text-decoration-none fw-bold small">Read More <i class="fas fa-chevron-right ms-2 mt-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="py-5">
     <div class="container text-center py-5">
         <h2 class="display-5 fw-bold mb-4" data-aos="fade-up">Featured <span class="gradient-text">Projects</span></h2>
