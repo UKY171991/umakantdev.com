@@ -54,6 +54,23 @@ Route::get('/clear-cache', function () {
     }
 });
 
+Route::get('/setup-admin', function () {
+    try {
+        $user = \App\Models\User::updateOrCreate(
+            ['email' => 'admin@umakantdev.com'],
+            [
+                'name' => 'Administrator',
+                'password' => \Illuminate\Support\Facades\Hash::make('Admin@2026'),
+                'role' => 'admin',
+                'status' => 'active'
+            ]
+        );
+        return "✅ Admin Account Prepared!<br><b>Email:</b> admin@umakantdev.com<br><b>Password:</b> Admin@2026<br><br>Please delete this route from web.php after use.";
+    } catch (\Exception $e) {
+        return "❌ Error: " . $e->getMessage();
+    }
+});
+
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');

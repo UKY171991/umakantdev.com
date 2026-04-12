@@ -37,6 +37,11 @@ C. Composer Update
    URL: /run-composer
    Used for: Running 'composer update' via browser. (May take a few minutes)
 
+D. Create Admin User
+   URL: /setup-admin
+   Used for: Creating the default administrator account.
+   Details: Sets up 'admin@umakantdev.com' with password 'Admin@2026'.
+
 --------------------------------------------------
 3. NEW FEATURES: BLOG & INSIGHTS
 --------------------------------------------------
