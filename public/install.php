@@ -57,7 +57,26 @@ foreach ($cacheFiles as $file) {
 // 4. Artisan Commands
 runCommand("php $baseDir" . "artisan key:generate", "Generating App Key");
 runCommand("php $baseDir" . "artisan migrate --force", "Running Database Migrations");
-runCommand("php $baseDir" . "artisan storage:link", "Linking Storage");
+
+echo "<h3>Linking Storage (Manual Fallback)...</h3>";
+try {
+    $target = $baseDir . 'storage/app/public';
+    $link = $baseDir . 'public/storage';
+    if (file_exists($link)) {
+        echo "ℹ️ Storage link already exists.<br>";
+    } else {
+        if (symlink($target, $link)) {
+            echo "<span class='success'>✅ Storage link created successfully via PHP symlink().</span><br>";
+        } else {
+            echo "<span class='error'>❌ Failed to create symlink. Try running Artisan command.</span><br>";
+            runCommand("php $baseDir" . "artisan storage:link", "Storage Link (Artisan)");
+        }
+    }
+} catch (\Exception $e) {
+    echo "<span class='error'>❌ Error during manual linking: " . $e->getMessage() . "</span><br>";
+    runCommand("php $baseDir" . "artisan storage:link", "Storage Link (Artisan Fallback)");
+}
+
 runCommand("php $baseDir" . "artisan config:cache", "Caching Configuration");
 runCommand("php $baseDir" . "artisan view:clear", "Clearing Views");
 
