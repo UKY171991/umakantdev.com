@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,9 +49,9 @@ Route::get('/clear-cache', function () {
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         \Illuminate\Support\Facades\Artisan::call('route:clear');
-        return "✅ Success: All caches have been cleared!";
+        return '✅ Success: All caches have been cleared!';
     } catch (\Exception $e) {
-        return "❌ Error: " . $e->getMessage();
+        return '❌ Error: ' . $e->getMessage();
     }
 });
 
@@ -62,17 +62,26 @@ Route::get('/setup-admin', function () {
             [
                 'name' => 'Administrator',
                 'password' => \Illuminate\Support\Facades\Hash::make('Admin@2026'),
-                'role' => 'admin',
-                'status' => 'active'
             ]
         );
+
         return "✅ Admin Account Prepared!<br><b>Email:</b> admin@umakantdev.com<br><b>Password:</b> Admin@2026<br><br>Please delete this route from web.php after use.";
     } catch (\Exception $e) {
-        return "❌ Error: " . $e->getMessage();
+        return '❌ Error: ' . $e->getMessage();
     }
 });
 
-Route::get('/umakant', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::middleware('guest')->group(function () {
+    Route::get('/admin/login', [AdminController::class, 'showLogin'])->name('admin.login');
+    Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.submit');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+});
+
+Route::redirect('/umakant', '/admin', 301);
 
 Route::get('/contact', function () {
     return view('contact');
