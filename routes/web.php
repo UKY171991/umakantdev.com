@@ -74,6 +74,8 @@ Route::get('/setup-admin', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminController::class, 'showLogin'])->name('admin.login');
     Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.submit');
+    Route::get('/login', [AdminController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AdminController::class, 'login'])->name('login.submit');
 });
 
 Route::middleware('auth')->group(function () {
