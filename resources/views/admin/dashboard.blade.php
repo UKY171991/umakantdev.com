@@ -41,10 +41,13 @@
     <div class="col-lg-3 col-6">
         <div class="small-box bg-warning">
             <div class="inner">
-                <h3>45</h3>
-                <p>New Enquiries</p>
+                <h3>{{ \App\Models\Contact::count() }}</h3>
+                <p>Total Enquiries</p>
             </div>
             <div class="icon"><i class="fas fa-envelope"></i></div>
+            <a href="{{ route('admin.inquiries.index') }}" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
         </div>
     </div>
 

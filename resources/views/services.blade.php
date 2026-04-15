@@ -18,53 +18,88 @@
 <div class="container py-5">
     <div class="text-center mb-5" data-aos="fade-down">
         <h6 class="text-primary fw-bold text-uppercase mb-3">Service Excellence</h6>
-        <h2 class="display-5 fw-bold mb-4 text-white">Solutions for the <span class="gradient-text">Modern Web</span></h2>
+        <h2 class="display-5 fw-bold mb-4 text-white">Solutions for <span class="gradient-text">Modern Web</span></h2>
         <p class="text-muted mx-auto" style="max-width: 700px;">We provide a wide range of services to help you build, grow, and scale your online presence with cutting-edge technology.</p>
     </div>
 
-    <div class="row g-4 mb-5 pb-5">
-        <!-- Web Development -->
-        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="glass-card p-5 h-100 border-bottom-primary border-4">
-                <div class="service-icon text-primary"><i class="fas fa-code"></i></div>
-                <h3 class="fw-bold mb-3 text-white">Web Development</h3>
-                <p class="text-muted mb-4">Building robust backends and dynamic frontends using Laravel, React, and modern tech stacks.</p>
-                <ul class="list-unstyled text-muted small">
-                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i>Custom CMS Solutions</li>
-                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i>E-commerce Platforms</li>
-                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i>API Integrations</li>
-                </ul>
-            </div>
+    @if($categories->count() > 0)
+        <!-- Service Categories -->
+        <div class="row g-4 mb-5">
+            @foreach($categories as $category)
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                    <div class="glass-card p-5 h-100 border-bottom-primary border-4">
+                        <div class="service-icon text-primary">
+                            @if($category->icon)
+                                <i class="{{ $category->icon }}"></i>
+                            @else
+                                <i class="fas fa-cogs"></i>
+                            @endif
+                        </div>
+                        <h3 class="fw-bold mb-3 text-white">{{ $category->name }}</h3>
+                        <p class="text-muted mb-4">{{ $category->description }}</p>
+                        <div class="text-center">
+                            <span class="badge bg-primary bg-opacity-10 text-primary">{{ $category->services()->count() }} Services</span>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
-        <!-- App Development -->
-        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card p-5 h-100 border-bottom-secondary border-4">
-                <div class="service-icon text-secondary"><i class="fas fa-mobile-alt"></i></div>
-                <h3 class="fw-bold mb-3 text-white">App Development</h3>
-                <p class="text-muted mb-4">Designing and developing high-performance mobile applications for iOS and Android.</p>
-                <ul class="list-unstyled text-muted small">
-                    <li class="mb-2"><i class="fas fa-check-circle text-secondary me-2"></i>Native iOS & Android</li>
-                    <li class="mb-2"><i class="fas fa-check-circle text-secondary me-2"></i>React Native Apps</li>
-                    <li class="mb-2"><i class="fas fa-check-circle text-secondary me-2"></i>App Store Optimization</li>
-                </ul>
-            </div>
+        <!-- All Services -->
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h3 class="fw-bold mb-3 text-white">All <span class="gradient-text">Services</span></h3>
+            <p class="text-muted">Explore our complete range of professional services</p>
         </div>
-
-        <!-- SEO -->
-        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="glass-card p-5 h-100 border-bottom-accent border-4">
-                <div class="service-icon text-info"><i class="fas fa-search-dollar"></i></div>
-                <h3 class="fw-bold mb-3 text-white">SEO & Marketing</h3>
-                <p class="text-muted mb-4">Ensuring your website ranks at the top and provides actionable insights for growth.</p>
-                <ul class="list-unstyled text-muted small">
-                    <li class="mb-2"><i class="fas fa-check-circle text-info me-2"></i>On-Page Optimization</li>
-                    <li class="mb-2"><i class="fas fa-check-circle text-info me-2"></i>Content Marketing</li>
-                    <li class="mb-2"><i class="fas fa-check-circle text-info me-2"></i>Monthly Audits</li>
-                </ul>
-            </div>
+        
+        <div class="row g-4 mb-5 pb-5">
+            @foreach($services as $service)
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
+                    <div class="glass-card p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="service-icon text-{{ $loop->index % 3 == 0 ? 'primary' : ($loop->index % 3 == 1 ? 'secondary' : 'info') }}">
+                                @if($service->category && $service->category->icon)
+                                    <i class="{{ $service->category->icon }}"></i>
+                                @else
+                                    <i class="fas fa-cogs"></i>
+                                @endif
+                            </div>
+                            @if($service->is_featured)
+                                <span class="badge bg-warning">Featured</span>
+                            @endif
+                        </div>
+                        <h4 class="fw-bold mb-3 text-white">{{ $service->title }}</h4>
+                        <p class="text-muted small mb-4">{{ $service->description }}</p>
+                        
+                        @if($service->price)
+                            <div class="mb-3">
+                                <span class="fw-bold text-primary">{{ $service->formatted_price }}</span>
+                                <small class="text-muted">/ {{ $service->price_type }}</small>
+                            </div>
+                        @else
+                            <div class="mb-3">
+                                <span class="text-muted">Contact for pricing</span>
+                            </div>
+                        @endif
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{{ route('service.detail', $service->slug) }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye me-1"></i> View Details
+                            </a>
+                            @if($service->category)
+                                <small class="text-muted">{{ $service->category->name }}</small>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
-    </div>
+    @else
+        <div class="text-center py-5">
+            <i class="fas fa-cogs fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">No services available</h4>
+            <p class="text-muted">Services will be available soon.</p>
+        </div>
+    @endif
 
     <!-- Working Process Section -->
     <div class="py-5" data-aos="fade-up">

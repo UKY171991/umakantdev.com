@@ -7,9 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/services', function () {
-    return view('services');
-})->name('services');
+Route::get('/services', [App\Http\Controllers\FrontServiceController::class, 'index'])->name('services');
+Route::get('/service/{slug}', [App\Http\Controllers\FrontServiceController::class, 'show'])->name('service.detail');
 
 Route::get('/portfolio', function () {
     return view('portfolio');
@@ -81,6 +80,33 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+    
+    // Contact Inquiries
+    Route::get('/admin/inquiries', [App\Http\Controllers\ContactInquiryController::class, 'index'])->name('admin.inquiries.index');
+    Route::get('/admin/inquiries/{inquiry}', [App\Http\Controllers\ContactInquiryController::class, 'show'])->name('admin.inquiries.show');
+    Route::delete('/admin/inquiries/{inquiry}', [App\Http\Controllers\ContactInquiryController::class, 'destroy'])->name('admin.inquiries.destroy');
+    
+    // Service Categories
+    Route::get('/admin/service-categories', [App\Http\Controllers\ServiceCategoryController::class, 'index'])->name('admin.service-categories.index');
+    Route::get('/admin/service-categories/create', [App\Http\Controllers\ServiceCategoryController::class, 'create'])->name('admin.service-categories.create');
+    Route::post('/admin/service-categories', [App\Http\Controllers\ServiceCategoryController::class, 'store'])->name('admin.service-categories.store');
+    Route::get('/admin/service-categories/{serviceCategory}', [App\Http\Controllers\ServiceCategoryController::class, 'show'])->name('admin.service-categories.show');
+    Route::get('/admin/service-categories/{serviceCategory}/edit', [App\Http\Controllers\ServiceCategoryController::class, 'edit'])->name('admin.service-categories.edit');
+    Route::put('/admin/service-categories/{serviceCategory}', [App\Http\Controllers\ServiceCategoryController::class, 'update'])->name('admin.service-categories.update');
+    Route::delete('/admin/service-categories/{serviceCategory}', [App\Http\Controllers\ServiceCategoryController::class, 'destroy'])->name('admin.service-categories.destroy');
+    
+    // Services
+    Route::get('/admin/services', [App\Http\Controllers\ServiceController::class, 'index'])->name('admin.services.index');
+    Route::get('/admin/services/create', [App\Http\Controllers\ServiceController::class, 'create'])->name('admin.services.create');
+    Route::post('/admin/services', [App\Http\Controllers\ServiceController::class, 'store'])->name('admin.services.store');
+    Route::get('/admin/services/{service}', [App\Http\Controllers\ServiceController::class, 'show'])->name('admin.services.show');
+    Route::get('/admin/services/{service}/edit', [App\Http\Controllers\ServiceController::class, 'edit'])->name('admin.services.edit');
+    Route::put('/admin/services/{service}', [App\Http\Controllers\ServiceController::class, 'update'])->name('admin.services.update');
+    Route::delete('/admin/services/{service}', [App\Http\Controllers\ServiceController::class, 'destroy'])->name('admin.services.destroy');
+    
+    // Settings
+    Route::get('/admin/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('admin.settings.index');
+    Route::put('/admin/settings', [App\Http\Controllers\SettingsController::class, 'update'])->name('admin.settings.update');
 });
 
 Route::redirect('/umakant', '/admin', 301);
@@ -88,6 +114,8 @@ Route::redirect('/umakant', '/admin', 301);
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
+
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/packages', function () {
     return view('packages');

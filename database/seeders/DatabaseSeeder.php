@@ -21,5 +21,16 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        User::factory()->create([
+            'name' => 'Administrator',
+            'email' => 'admin@umakantdev.com',
+            'password' => bcrypt('Admin@2026'),
+        ]);
+
+        $this->call([
+            ServiceCategorySeeder::class,
+            ServiceSeeder::class,
+        ]);
     }
 }

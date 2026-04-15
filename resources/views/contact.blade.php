@@ -67,33 +67,53 @@
 
         <div class="col-lg-7">
             <div class="glass-card p-5">
-                <form>
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                @if($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Oops!</strong> There were some problems with your input.<br><br>
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                <form action="{{ route('contact.store') }}" method="POST">
+                    @csrf
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label text-muted small">First Name</label>
-                            <input type="text" class="form-control p-3" placeholder="John">
+                            <input type="text" name="first_name" class="form-control p-3 @error('first_name') is-invalid @enderror" placeholder="John" value="{{ old('first_name') }}" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label text-muted small">Last Name</label>
-                            <input type="text" class="form-control p-3" placeholder="Doe">
+                            <input type="text" name="last_name" class="form-control p-3 @error('last_name') is-invalid @enderror" placeholder="Doe" value="{{ old('last_name') }}" required>
                         </div>
                         <div class="col-12">
                             <label class="form-label text-muted small">Email Address</label>
-                            <input type="email" class="form-control p-3" placeholder="john@example.com">
+                            <input type="email" name="email" class="form-control p-3 @error('email') is-invalid @enderror" placeholder="john@example.com" value="{{ old('email') }}" required>
                         </div>
                         <div class="col-12">
                             <label class="form-label text-muted small">Project Type</label>
-                            <select class="form-select p-3">
-                                <option disabled selected>Select a project type</option>
-                                <option>Web Development</option>
-                                <option>UI/UX Design</option>
-                                <option>SEO Strategy</option>
-                                <option>Full Package</option>
+                            <select name="project_type" class="form-select p-3 @error('project_type') is-invalid @enderror" required>
+                                <option value="" disabled {{ old('project_type') == '' ? 'selected' : '' }}>Select a project type</option>
+                                <option value="Web Development" {{ old('project_type') == 'Web Development' ? 'selected' : '' }}>Web Development</option>
+                                <option value="UI/UX Design" {{ old('project_type') == 'UI/UX Design' ? 'selected' : '' }}>UI/UX Design</option>
+                                <option value="SEO Strategy" {{ old('project_type') == 'SEO Strategy' ? 'selected' : '' }}>SEO Strategy</option>
+                                <option value="Full Package" {{ old('project_type') == 'Full Package' ? 'selected' : '' }}>Full Package</option>
                             </select>
                         </div>
                         <div class="col-12">
                             <label class="form-label text-muted small">Message</label>
-                            <textarea class="form-control p-3" rows="5" placeholder="Tell us about your project..."></textarea>
+                            <textarea name="message" class="form-control p-3 @error('message') is-invalid @enderror" rows="5" placeholder="Tell us about your project..." required>{{ old('message') }}</textarea>
                         </div>
                         <div class="col-12 mt-4">
                             <button type="submit" class="btn btn-premium w-100 py-3">Send Message</button>

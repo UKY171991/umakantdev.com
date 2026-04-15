@@ -78,26 +78,93 @@
             <h2 class="display-5 fw-bold mb-3 text-white">Empowering Your <span class="gradient-text">Digital Growth</span></h2>
             <p class="text-muted mx-auto" style="max-width: 700px;">Explore our suite of digital solutions designed to help your brand stand out and thrive in the modern landscape.</p>
         </div>
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="glass-card p-4 h-100">
-                    <div class="service-icon text-primary"><i class="fas fa-laptop-code"></i></div>
-                    <h4 class="fw-bold mb-3 text-white">Website Designing</h4>
-                    <p class="text-muted small mb-4">Responsive, high-converting websites built with modern frameworks and pixel-perfect design.</p>
-                    <a href="{{ route('services') }}" class="text-primary text-decoration-none fw-bold small">Explore Service <i class="fas fa-chevron-right ms-2 mt-1"></i></a>
+        
+        @php
+            $featuredServices = App\Models\Service::with('category')
+                ->where('is_active', true)
+                ->where('is_featured', true)
+                ->orderBy('sort_order')
+                ->orderBy('title')
+                ->limit(6)
+                ->get();
+        @endphp
+        
+        @if($featuredServices->count() > 0)
+            <div class="row g-4">
+                @foreach($featuredServices as $service)
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                        <div class="glass-card p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="service-icon text-{{ $loop->index % 3 == 0 ? 'primary' : ($loop->index % 3 == 1 ? 'secondary' : 'info') }}">
+                                    @if($service->category && $service->category->icon)
+                                        <i class="{{ $service->category->icon }}"></i>
+                                    @else
+                                        <i class="fas fa-cogs"></i>
+                                    @endif
+                                </div>
+                                @if($service->is_featured)
+                                    <span class="badge bg-warning">Featured</span>
+                                @endif
+                            </div>
+                            <h4 class="fw-bold mb-3 text-white">{{ $service->title }}</h4>
+                            <p class="text-muted small mb-4">{{ $service->description }}</p>
+                            
+                            @if($service->price)
+                                <div class="mb-3">
+                                    <span class="fw-bold text-primary">{{ $service->formatted_price }}</span>
+                                    <small class="text-muted">/ {{ $service->price_type }}</small>
+                                </div>
+                            @else
+                                <div class="mb-3">
+                                    <span class="text-muted">Contact for pricing</span>
+                                </div>
+                            @endif
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{{ route('service.detail', $service->slug) }}" class="text-primary text-decoration-none fw-bold small">
+                                    Explore Service <i class="fas fa-chevron-right ms-2 mt-1"></i>
+                                </a>
+                                @if($service->category)
+                                    <small class="text-muted">{{ $service->category->name }}</small>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="row g-4">
+                <!-- Fallback static services if no featured services exist -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="glass-card p-4 h-100">
+                        <div class="service-icon text-primary"><i class="fas fa-laptop-code"></i></div>
+                        <h4 class="fw-bold mb-3 text-white">Website Designing</h4>
+                        <p class="text-muted small mb-4">Responsive, high-converting websites built with modern frameworks and pixel-perfect design.</p>
+                        <a href="{{ route('services') }}" class="text-primary text-decoration-none fw-bold small">Explore Service <i class="fas fa-chevron-right ms-2 mt-1"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass-card p-4 h-100">
+                        <div class="service-icon text-secondary"><i class="fas fa-mobile-alt"></i></div>
+                        <h4 class="fw-bold mb-3 text-white">App Development</h4>
+                        <p class="text-muted small mb-4">Scalable iOS and Android applications developed for seamless performance and user engagement.</p>
+                        <a href="{{ route('services') }}" class="text-secondary text-decoration-none fw-bold small">Explore Service <i class="fas fa-chevron-right ms-2 mt-1"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="glass-card p-4 h-100">
+                        <div class="service-icon text-info"><i class="fas fa-search-dollar"></i></div>
+                        <h4 class="fw-bold mb-3 text-white">SEO Optimization</h4>
+                        <p class="text-muted small mb-4">Improve search rankings and drive organic traffic with proven SEO strategies.</p>
+                        <a href="{{ route('services') }}" class="text-info text-decoration-none fw-bold small">Explore Service <i class="fas fa-chevron-right ms-2 mt-1"></i></a>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="glass-card p-4 h-100">
-                    <div class="service-icon text-secondary"><i class="fas fa-mobile-alt"></i></div>
-                    <h4 class="fw-bold mb-3 text-white">App Development</h4>
-                    <p class="text-muted small mb-4">Scalable iOS and Android applications developed for seamless performance and user engagement.</p>
-                    <a href="{{ route('services') }}" class="text-secondary text-decoration-none fw-bold small">Explore Service <i class="fas fa-chevron-right ms-2 mt-1"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="glass-card p-4 h-100">
-                    <div class="service-icon text-info"><i class="fas fa-search-dollar"></i></div>
+        @endif
+        
+        <div class="text-center mt-5">
+            <a href="{{ route('services') }}" class="btn btn-premium">View All Services</a>
+        </div>
                     <h4 class="fw-bold mb-3 text-white">SEO Services</h4>
                     <p class="text-muted small mb-4">Result-driven SEO strategies to boost your organic rankings and drive sustainable traffic.</p>
                     <a href="{{ route('services') }}" class="text-info text-decoration-none fw-bold small">Explore Service <i class="fas fa-chevron-right ms-2 mt-1"></i></a>

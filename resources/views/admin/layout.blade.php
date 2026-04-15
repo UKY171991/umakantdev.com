@@ -59,6 +59,44 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a href="{{ route('admin.inquiries.index') }}" class="nav-link {{ request()->routeIs('admin.inquiries.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-envelope"></i>
+                            <p>Contact Inquiries</p>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="#" class="nav-link {{ request()->routeIs('admin.service-categories.*') || request()->routeIs('admin.services.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>
+                                Services
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.service-categories.index') }}" class="nav-link {{ request()->routeIs('admin.service-categories.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Categories</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.services.index') }}" class="nav-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Services</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-cog"></i>
+                            <p>Settings</p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
