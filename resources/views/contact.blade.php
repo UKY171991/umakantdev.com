@@ -32,7 +32,7 @@
                     </div>
                     <div>
                         <p class="mb-0 fw-bold">Email Us</p>
-                        <p class="text-muted small">hello@umakantdev.com</p>
+                        <p class="text-muted small">{{ $siteSettings['contact_email'] ?? 'hello@umakantdev.com' }}</p>
                     </div>
                 </div>
                 <div class="d-flex gap-3 mb-4">
@@ -41,7 +41,7 @@
                     </div>
                     <div>
                         <p class="mb-0 fw-bold">Call Us</p>
-                        <p class="text-muted small">+1 (555) 123-4567</p>
+                        <p class="text-muted small">{{ $siteSettings['contact_phone'] ?? '+91 981 051 8321' }}</p>
                     </div>
                 </div>
                 <div class="d-flex gap-3">
@@ -50,19 +50,30 @@
                     </div>
                     <div>
                         <p class="mb-0 fw-bold">Location</p>
-                        <p class="text-muted small">San Francisco, CA (Remote Global)</p>
+                        <p class="text-muted small">{{ $siteSettings['contact_address'] ?? 'San Francisco, CA (Remote Global)' }}</p>
                     </div>
                 </div>
             </div>
 
+            @if(isset($siteSettings['social_facebook']) || isset($siteSettings['social_twitter']) || isset($siteSettings['social_instagram']) || isset($siteSettings['social_linkedin']))
             <div class="glass-card p-5">
                 <h4 class="fw-bold mb-3">Follow Us</h4>
                 <div class="d-flex gap-3">
-                    <a href="#" class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-instagram"></i></a>
+                    @if(isset($siteSettings['social_facebook']))
+                        <a href="{{ $siteSettings['social_facebook'] }}" target="_blank" class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-facebook-f"></i></a>
+                    @endif
+                    @if(isset($siteSettings['social_twitter']))
+                        <a href="{{ $siteSettings['social_twitter'] }}" target="_blank" class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-twitter"></i></a>
+                    @endif
+                    @if(isset($siteSettings['social_instagram']))
+                        <a href="{{ $siteSettings['social_instagram'] }}" target="_blank" class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-instagram"></i></a>
+                    @endif
+                    @if(isset($siteSettings['social_linkedin']))
+                        <a href="{{ $siteSettings['social_linkedin'] }}" target="_blank" class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-linkedin-in"></i></a>
+                    @endif
                 </div>
             </div>
+            @endif
         </div>
 
         <div class="col-lg-7">

@@ -9,12 +9,23 @@ use Illuminate\View\View;
 
 class FrontServiceController extends Controller
 {
-    public function index(): View
+    public function index(?string $categorySlug = null): View
     {
         $categories = ServiceCategory::where('is_active', true)->orderBy('sort_order')->orderBy('name')->get();
-        $services = Service::with('category')->where('is_active', true)->orderBy('sort_order')->orderBy('title')->get();
         
-        return view('services', compact('categories', 'services'));
+        $query = Service::with('category')->where('is_active', true);
+        
+        $currentCategory = null;
+        if ($categorySlug) {
+            $currentCategory = ServiceCategory::where('slug', $categorySlug)->where('is_active', true)->first();
+            if ($currentCategory) {
+                $query->where('service_category_id', $currentCategory->id);
+            }
+        }
+        
+        $services = $query->orderBy('sort_order')->orderBy('title')->get();
+        
+        return view('services', compact('categories', 'services', 'currentCategory'));
     }
     
     public function show(string $slug): View

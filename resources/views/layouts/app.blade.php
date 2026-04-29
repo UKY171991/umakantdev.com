@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Premium Website Development Services | Umakant Dev')</title>
+    <title>@yield('meta_title', ($siteSettings['meta_title'] ?? ($siteSettings['site_name'] ?? 'Umakant Dev') . ' | Premium Website Development Services'))</title>
+    
+    <!-- Favicon -->
+    @if(isset($siteSettings['favicon']))
+        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $siteSettings['favicon']) }}">
+    @endif
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Professional website development services. Custom web applications, UI/UX design, and SEO optimized solutions for your business.">
-    <meta name="keywords" content="web developer, website development, custom software, UI/UX design, SEO services, Laravel developer">
-    <meta name="author" content="Umakant Dev">
+    <meta name="description" content="@yield('meta_description', $siteSettings['meta_description'] ?? 'Professional website development services. Custom web applications, UI/UX design, and SEO optimized solutions for your business.')">
+    <meta name="keywords" content="@yield('meta_keywords', $siteSettings['meta_keywords'] ?? 'web developer, website development, custom software, UI/UX design, SEO services, Laravel developer')">
+    <meta name="author" content="{{ $siteSettings['site_name'] ?? 'Umakant Dev' }}">
 
     <!-- Styles & Scripts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -25,16 +30,24 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="d-flex gap-4">
-                        <span class="small text-muted"><i class="fas fa-envelope text-primary me-2"></i>hello@umakantdev.com</span>
-                        <span class="small text-muted"><i class="fas fa-phone text-primary me-2"></i>+91 981 051 8321</span>
+                        <span class="small text-muted"><i class="fas fa-envelope text-primary me-2"></i>{{ $siteSettings['contact_email'] ?? 'hello@umakantdev.com' }}</span>
+                        <span class="small text-muted"><i class="fas fa-phone text-primary me-2"></i>{{ $siteSettings['contact_phone'] ?? '+91 981 051 8321' }}</span>
                     </div>
                 </div>
                 <div class="col-md-6 text-end">
                     <div class="social-links d-flex justify-content-end gap-3">
-                        <a href="#" class="text-muted small"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-muted small"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-muted small"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="text-muted small"><i class="fab fa-instagram"></i></a>
+                        @if(isset($siteSettings['social_facebook']))
+                            <a href="{{ $siteSettings['social_facebook'] }}" target="_blank" class="text-muted small"><i class="fab fa-facebook-f"></i></a>
+                        @endif
+                        @if(isset($siteSettings['social_twitter']))
+                            <a href="{{ $siteSettings['social_twitter'] }}" target="_blank" class="text-muted small"><i class="fab fa-twitter"></i></a>
+                        @endif
+                        @if(isset($siteSettings['social_linkedin']))
+                            <a href="{{ $siteSettings['social_linkedin'] }}" target="_blank" class="text-muted small"><i class="fab fa-linkedin-in"></i></a>
+                        @endif
+                        @if(isset($siteSettings['social_instagram']))
+                            <a href="{{ $siteSettings['social_instagram'] }}" target="_blank" class="text-muted small"><i class="fab fa-instagram"></i></a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -44,7 +57,11 @@
     <nav class="navbar navbar-expand-lg sticky-top glass-card mx-3 mt-2 px-4" data-aos="fade-down">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="/">
-                <span class="gradient-text">UMAKANT</span>.DEV
+                @if(isset($siteSettings['logo']))
+                    <img src="{{ asset('storage/' . $siteSettings['logo']) }}" alt="{{ $siteSettings['site_name'] ?? 'UMAKANT.DEV' }}" style="max-height: 40px;">
+                @else
+                    <span class="gradient-text">{{ strtoupper(explode('.', $siteSettings['site_name'] ?? 'UMAKANT.DEV')[0]) }}</span>{{ str_contains($siteSettings['site_name'] ?? 'UMAKANT.DEV', '.') ? '.' . explode('.', $siteSettings['site_name'] ?? 'UMAKANT.DEV')[1] : '' }}
+                @endif
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -55,28 +72,37 @@
                         <a class="nav-link px-3 {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About Us</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link px-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Services</a>
-                        <ul class="dropdown-menu glass-card">
-                            <li><a class="dropdown-item" href="{{ route('services') }}">All Services</a></li>
-                            <li><hr class="dropdown-divider border-white border-opacity-10"></li>
-                            <li><a class="dropdown-item" href="#">Web Designing</a></li>
-                            <li><a class="dropdown-item" href="#">App Development</a></li>
-                            <li><a class="dropdown-item" href="#">SEO Services</a></li>
+                        <a class="nav-link px-3 dropdown-toggle {{ request()->routeIs('services') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown">Services</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('services') }}"><i class="fas fa-th-large"></i> All Services</a></li>
+                            @if(isset($serviceCategories) && $serviceCategories->count() > 0)
+                                <li><hr class="dropdown-divider border-white border-opacity-10"></li>
+                                @foreach($serviceCategories as $category)
+                                    <li><a class="dropdown-item" href="{{ route('services', $category->slug) }}"><i class="{{ $category->icon ?? 'fas fa-check-circle' }}"></i> {{ $category->name }}</a></li>
+                                @endforeach
+                            @else
+                                <li><hr class="dropdown-divider border-white border-opacity-10"></li>
+                                <li><a class="dropdown-item" href="{{ route('services') }}"><i class="fas fa-laptop-code"></i> Web Designing</a></li>
+                                <li><a class="dropdown-item" href="{{ route('services') }}"><i class="fas fa-mobile-alt"></i> App Development</a></li>
+                                <li><a class="dropdown-item" href="{{ route('services') }}"><i class="fas fa-search-dollar"></i> SEO Services</a></li>
+                            @endif
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link px-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Our Work</a>
-                        <ul class="dropdown-menu glass-card">
-                            <li><a class="dropdown-item" href="{{ route('portfolio') }}">Portfolio</a></li>
-                            <li><a class="dropdown-item" href="#">Case Studies</a></li>
+                        <a class="nav-link px-3 dropdown-toggle {{ request()->routeIs('portfolio') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown">Our Work</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('portfolio') }}"><i class="fas fa-briefcase"></i> Portfolio</a></li>
+                            <li><a class="dropdown-item" href="{{ route('portfolio') }}"><i class="fas fa-file-alt"></i> Case Studies</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link px-3 dropdown-toggle {{ request()->routeIs('packages') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown">Packages</a>
-                        <ul class="dropdown-menu glass-card">
-                            <li><a class="dropdown-item" href="{{ route('packages') }}">SEO Packages</a></li>
-                            <li><a class="dropdown-item" href="{{ route('packages') }}">Website Packages</a></li>
-                            <li><a class="dropdown-item" href="{{ route('packages') }}">Social Media</a></li>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('packages') }}"><i class="fas fa-box"></i> All Packages</a></li>
+                            <li><hr class="dropdown-divider border-white border-opacity-10"></li>
+                            <li><a class="dropdown-item" href="{{ route('packages') }}"><i class="fas fa-search"></i> SEO Packages</a></li>
+                            <li><a class="dropdown-item" href="{{ route('packages') }}"><i class="fas fa-code"></i> Website Packages</a></li>
+                            <li><a class="dropdown-item" href="{{ route('packages') }}"><i class="fab fa-facebook"></i> Social Media</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -87,8 +113,8 @@
                     </li>
                 </ul>
                 <div class="d-flex align-items-center ms-lg-3">
-                    <a href="tel:+919810518321" class="text-white text-decoration-none d-none d-xl-block me-3 fw-bold">
-                        <i class="fas fa-phone-volume text-primary me-2"></i>+91 981 051 XXXX
+                    <a href="tel:{{ str_replace(' ', '', $siteSettings['contact_phone'] ?? '+919810518321') }}" class="text-white text-decoration-none d-none d-xl-block me-3 fw-bold">
+                        <i class="fas fa-phone-volume text-primary me-2"></i>{{ $siteSettings['contact_phone'] ?? '+91 981 051 XXXX' }}
                     </a>
                     <a href="{{ route('contact') }}" class="btn btn-premium px-4">Get a Quote</a>
                 </div>
@@ -105,7 +131,11 @@
             <div class="row g-4 align-items-center mb-4">
                 <div class="col-lg-12 text-center mb-4">
                     <a class="navbar-brand fw-bold d-inline-block fs-2" href="/">
-                        <span class="gradient-text">UMAKANT</span>.DEV
+                        @if(isset($siteSettings['logo']))
+                            <img src="{{ asset('storage/' . $siteSettings['logo']) }}" alt="{{ $siteSettings['site_name'] ?? 'UMAKANT.DEV' }}" style="max-height: 60px;">
+                        @else
+                            <span class="gradient-text">{{ strtoupper(explode('.', $siteSettings['site_name'] ?? 'UMAKANT.DEV')[0]) }}</span>{{ str_contains($siteSettings['site_name'] ?? 'UMAKANT.DEV', '.') ? '.' . explode('.', $siteSettings['site_name'] ?? 'UMAKANT.DEV')[1] : '' }}
+                        @endif
                     </a>
                 </div>
             </div>
@@ -152,10 +182,18 @@
                         We are a full-service digital agency delivering expert SEO, award-winning design, and high-performance development to grow your business online.
                     </p>
                     <div class="d-flex gap-3 justify-content-lg-end mb-4">
-                        <a href="#" class="btn btn-outline-light rounded-circle p-0" style="width: 35px; height: 35px; line-height: 33px; text-align: center;"><i class="fab fa-facebook-f small"></i></a>
-                        <a href="#" class="btn btn-outline-light rounded-circle p-0" style="width: 35px; height: 35px; line-height: 33px; text-align: center;"><i class="fab fa-twitter small"></i></a>
-                        <a href="#" class="btn btn-outline-light rounded-circle p-0" style="width: 35px; height: 35px; line-height: 33px; text-align: center;"><i class="fab fa-linkedin-in small"></i></a>
-                        <a href="#" class="btn btn-outline-light rounded-circle p-0" style="width: 35px; height: 35px; line-height: 33px; text-align: center;"><i class="fab fa-google small"></i></a>
+                        @if(isset($siteSettings['social_facebook']))
+                            <a href="{{ $siteSettings['social_facebook'] }}" target="_blank" class="btn btn-outline-light rounded-circle p-0" style="width: 35px; height: 35px; line-height: 33px; text-align: center;"><i class="fab fa-facebook-f small"></i></a>
+                        @endif
+                        @if(isset($siteSettings['social_twitter']))
+                            <a href="{{ $siteSettings['social_twitter'] }}" target="_blank" class="btn btn-outline-light rounded-circle p-0" style="width: 35px; height: 35px; line-height: 33px; text-align: center;"><i class="fab fa-twitter small"></i></a>
+                        @endif
+                        @if(isset($siteSettings['social_linkedin']))
+                            <a href="{{ $siteSettings['social_linkedin'] }}" target="_blank" class="btn btn-outline-light rounded-circle p-0" style="width: 35px; height: 35px; line-height: 33px; text-align: center;"><i class="fab fa-linkedin-in small"></i></a>
+                        @endif
+                        @if(isset($siteSettings['social_instagram']))
+                            <a href="{{ $siteSettings['social_instagram'] }}" target="_blank" class="btn btn-outline-light rounded-circle p-0" style="width: 35px; height: 35px; line-height: 33px; text-align: center;"><i class="fab fa-instagram small"></i></a>
+                        @endif
                     </div>
                     <div class="d-flex gap-2 justify-content-lg-end">
                         <div class="glass-card px-3 py-2 border-0 bg-white bg-opacity-10 d-flex align-items-center gap-2">
@@ -191,7 +229,7 @@
         </div>
     </footer>
     <!-- Floating Audit Sidebar -->
-    <div class="audit-sidebar d-none d-md-block" style="position: fixed; right: -280px; top: 50%; transform: translateY(-50%); z-index: 9999; width: 280px; transition: right 0.5s ease;">
+    <div class="audit-sidebar d-none d-md-block">
         <div class="audit-trigger" style="position: absolute; left: -45px; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #6366f1, #ec4899); color: white; padding: 20px 10px; border-radius: 12px 0 0 12px; font-weight: 700; writing-mode: vertical-rl; cursor: pointer; white-space: nowrap;">
             <i class="fas fa-search-dollar mb-2"></i> REQUEST FREE AUDIT
         </div>
@@ -205,14 +243,6 @@
         </div>
     </div>
 
-    <script>
-        // Simple JS to handle the hover if CSS transition is tricky
-        const sidebar = document.querySelector('.audit-sidebar');
-        if(sidebar) {
-            sidebar.addEventListener('mouseenter', () => sidebar.style.right = '0');
-            sidebar.addEventListener('mouseleave', () => sidebar.style.right = '-280px');
-        }
-    </script>
 
 </body>
 </html>

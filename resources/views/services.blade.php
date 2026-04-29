@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Our Services | Professional Web Development')
+@section('meta_title', isset($currentCategory) ? $currentCategory->name . ' | Services' : ($siteSettings['meta_title'] ?? 'Our Services | Professional Web Development'))
+@section('meta_description', isset($currentCategory) ? $currentCategory->description : ($siteSettings['meta_description'] ?? ''))
+@section('meta_keywords', $siteSettings['meta_keywords'] ?? '')
 
 @section('content')
 <div class="breadcrumb-section py-5 bg-dark bg-opacity-25 mb-5">
@@ -9,7 +11,10 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="/" class="text-primary text-decoration-none">Home</a></li>
-                <li class="breadcrumb-item active text-muted" aria-current="page">Services</li>
+                <li class="breadcrumb-item"><a href="{{ route('services') }}" class="text-primary text-decoration-none">Services</a></li>
+                @if(isset($currentCategory))
+                    <li class="breadcrumb-item active text-muted" aria-current="page">{{ $currentCategory->name }}</li>
+                @endif
             </ol>
         </nav>
     </div>
@@ -18,7 +23,13 @@
 <div class="container py-5">
     <div class="text-center mb-5" data-aos="fade-down">
         <h6 class="text-primary fw-bold text-uppercase mb-3">Service Excellence</h6>
-        <h2 class="display-5 fw-bold mb-4 text-white">Solutions for <span class="gradient-text">Modern Web</span></h2>
+        <h2 class="display-5 fw-bold mb-4 text-white">
+            @if(isset($currentCategory))
+                {{ $currentCategory->name }} <span class="gradient-text">Solutions</span>
+            @else
+                Solutions for <span class="gradient-text">Modern Web</span>
+            @endif
+        </h2>
         <p class="text-muted mx-auto" style="max-width: 700px;">We provide a wide range of services to help you build, grow, and scale your online presence with cutting-edge technology.</p>
     </div>
 
@@ -27,20 +38,22 @@
         <div class="row g-4 mb-5">
             @foreach($categories as $category)
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                    <div class="glass-card p-5 h-100 border-bottom-primary border-4">
-                        <div class="service-icon text-primary">
-                            @if($category->icon)
-                                <i class="{{ $category->icon }}"></i>
-                            @else
-                                <i class="fas fa-cogs"></i>
-                            @endif
+                    <a href="{{ route('services', $category->slug) }}" class="text-decoration-none h-100 d-block">
+                        <div class="glass-card p-5 h-100 border-bottom-primary border-4 {{ isset($currentCategory) && $currentCategory->id == $category->id ? 'active-category' : '' }}">
+                            <div class="service-icon text-primary">
+                                @if($category->icon)
+                                    <i class="{{ $category->icon }}"></i>
+                                @else
+                                    <i class="fas fa-cogs"></i>
+                                @endif
+                            </div>
+                            <h3 class="fw-bold mb-3 text-white">{{ $category->name }}</h3>
+                            <p class="text-muted mb-4">{{ Str::limit($category->description, 100) }}</p>
+                            <div class="text-center">
+                                <span class="badge bg-primary bg-opacity-10 text-primary">{{ $category->services()->count() }} Services</span>
+                            </div>
                         </div>
-                        <h3 class="fw-bold mb-3 text-white">{{ $category->name }}</h3>
-                        <p class="text-muted mb-4">{{ $category->description }}</p>
-                        <div class="text-center">
-                            <span class="badge bg-primary bg-opacity-10 text-primary">{{ $category->services()->count() }} Services</span>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>

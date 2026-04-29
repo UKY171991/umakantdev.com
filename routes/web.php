@@ -7,7 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/services', [App\Http\Controllers\FrontServiceController::class, 'index'])->name('services');
+Route::get('/services/{category_slug?}', [App\Http\Controllers\FrontServiceController::class, 'index'])->name('services');
 Route::get('/service/{slug}', [App\Http\Controllers\FrontServiceController::class, 'show'])->name('service.detail');
 
 Route::get('/portfolio', function () {
@@ -18,9 +18,8 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-Route::get('/blog', function () {
-    return view('blog');
-})->name('blog');
+Route::get('/blog', [App\Http\Controllers\BlogController::class, 'index'])->name('blog');
+Route::get('/blog/{slug}', [App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
 
 // Utility Routes for Maintenance
 Route::get('/run-migrate', function () {
@@ -107,6 +106,9 @@ Route::middleware('auth')->group(function () {
     // Settings
     Route::get('/admin/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('admin.settings.index');
     Route::put('/admin/settings', [App\Http\Controllers\SettingsController::class, 'update'])->name('admin.settings.update');
+
+    // Blog Posts
+    Route::resource('/admin/posts', App\Http\Controllers\PostController::class)->names('admin.posts');
 });
 
 Route::redirect('/umakant', '/admin', 301);

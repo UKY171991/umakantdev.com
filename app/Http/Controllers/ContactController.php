@@ -21,8 +21,24 @@ class ContactController extends Controller
 
         $contact = Contact::create($validated);
 
-        // Send email notification to admin
-        Mail::to('admin@umakantdev.com')->send(new ContactNotification($contact));
+        // Get admin settings
+        $adminEmail = \App\Models\Setting::get('site_email');
+        if (empty($adminEmail)) {
+            $adminEmail = \App\Models\Setting::get('contact_email', 'admin@umakantdev.com');
+        }
+        
+        $notificationsEnabled = \App\Models\Setting::get('email_notifications', '1') == '1';
+
+        // Send email notification to admin if enabled
+        if ($notificationsEnabled) {
+            try {
+                \Illuminate\Support\Facades\Log::info('Attempting to send contact notification to: ' . $adminEmail);
+                Mail::to($adminEmail)->send(new ContactNotification($contact));
+            } catch (\Exception $e) {
+                // Log the error or handle it silently to prevent 500 error for the user
+                \Illuminate\Support\Facades\Log::error('Mail sending failed to ' . $adminEmail . ': ' . $e->getMessage());
+            }
+        }
 
         return redirect()->back()->with('success', 'Thank you for your message! We will get back to you soon.');
     }

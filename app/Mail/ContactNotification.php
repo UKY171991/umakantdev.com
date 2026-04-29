@@ -11,6 +11,8 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Contact;
 
+use Illuminate\Mail\Mailables\Address;
+
 class ContactNotification extends Mailable
 {
     use Queueable, SerializesModels;
@@ -30,8 +32,18 @@ class ContactNotification extends Mailable
      */
     public function envelope(): Envelope
     {
+        $siteName = \App\Models\Setting::get('site_name', 'ThinkBiz');
+        $adminEmail = \App\Models\Setting::get('site_email', 'admin@umakantdev.com');
+        
         return new Envelope(
-            subject: 'New Contact Inquiry - ' . $this->contact->project_type,
+            from: new Address(config('mail.from.address'), $siteName),
+            to: [
+                new Address($adminEmail, $siteName . ' Administrator'),
+            ],
+            replyTo: [
+                new Address($this->contact->email, $this->contact->first_name . ' ' . $this->contact->last_name),
+            ],
+            subject: 'New Website Inquiry from ' . $this->contact->first_name . ' (' . $this->contact->project_type . ')',
         );
     }
 
@@ -42,6 +54,7 @@ class ContactNotification extends Mailable
     {
         return new Content(
             view: 'emails.contact-notification',
+            text: 'emails.contact-notification-text',
         );
     }
 

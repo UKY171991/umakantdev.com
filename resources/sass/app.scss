@@ -29,7 +29,7 @@ body {
     color: $body-color;
     overflow-x: hidden;
     position: relative;
-    
+
     // Animated Mesh Background
     &::before {
         content: '';
@@ -38,7 +38,7 @@ body {
         left: 0;
         width: 100%;
         height: 100%;
-        background: 
+        background:
             radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
             radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 40%),
             radial-gradient(circle at 50% 50%, rgba(7, 11, 20, 1) 0%, transparent 100%);
@@ -79,19 +79,31 @@ body {
     border-radius: 2rem;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-    
-    &:hover {
-        transform: translateY(-10px) scale(1.02);
-        border-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.3);
-        background: rgba(255, 255, 255, 0.05);
+
+    &:hover,
+    &.active-category {
+        // Only apply hover transform if NOT in navbar or dropdown
+        &:not(.navbar):not(.dropdown-menu):not(.nav-link) {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
     }
 }
 
 // Custom Height Utilities
-.min-vh-75 { min-height: 75vh !important; }
-.min-vh-85 { min-height: 85vh !important; }
-.tracking-widest { letter-spacing: 0.2em !important; }
+.min-vh-75 {
+    min-height: 75vh !important;
+}
+
+.min-vh-85 {
+    min-height: 85vh !important;
+}
+
+.tracking-widest {
+    letter-spacing: 0.2em !important;
+}
 
 .gradient-text {
     background: linear-gradient(135deg, $primary 0%, $secondary 50%, $accent 100%);
@@ -102,9 +114,17 @@ body {
 }
 
 @keyframes gradient-flow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .btn-premium {
@@ -137,6 +157,7 @@ body {
         transform: scale(1.1);
         box-shadow: 0 0 25px var(--glow-primary);
         color: white;
+
         &::before {
             opacity: 1;
         }
@@ -146,6 +167,7 @@ body {
 .hero-image-wrapper {
     position: relative;
     animation: floating 6s ease-in-out infinite;
+
     &::after {
         content: '';
         position: absolute;
@@ -159,16 +181,24 @@ body {
 }
 
 @keyframes floating {
-    0% { transform: translate(0, 0px); }
-    50% { transform: translate(0, 15px); }
-    100% { transform: translate(0, 0px); }
+    0% {
+        transform: translate(0, 0px);
+    }
+
+    50% {
+        transform: translate(0, 15px);
+    }
+
+    100% {
+        transform: translate(0, 0px);
+    }
 }
 
 // Navbar custom styling
 .top-bar {
     border-bottom: 1px solid var(--glass-border);
     background: rgba(255, 255, 255, 0.02);
-    
+
     .text-muted {
         color: rgba(255, 255, 255, 0.5) !important;
     }
@@ -190,7 +220,7 @@ body {
         font-size: 1.6rem;
         transition: transform 0.3s ease;
         padding-left: 0.5rem;
-        
+
         &:hover {
             transform: scale(1.05);
         }
@@ -202,40 +232,72 @@ body {
         letter-spacing: 0.5px;
         transition: all 0.3s ease;
         padding: 0.5rem 1.2rem !important;
-        
+
         &:hover {
             color: $white !important;
             opacity: 1;
         }
 
-        &.active {
-            color: $primary !important;
-            background: rgba($primary, 0.1);
+        &.active,
+        &.show {
+            color: $white !important;
+            background: rgba($primary, 0.2);
             border-radius: 50px;
         }
     }
 
     .dropdown-menu {
-        background: rgba(7, 11, 20, 0.9);
+        background: rgba(7, 11, 20, 0.95);
         backdrop-filter: blur(20px);
         border: 1px solid var(--glass-border);
-        border-radius: 1.5rem;
-        padding: 1rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        margin-top: 1rem;
+        border-radius: 1.2rem;
+        min-width: 250px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        margin-top: 0.8rem;
+        animation: dropdownFade 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         .dropdown-item {
-            color: rgba(255, 255, 255, 0.7);
-            border-radius: 0.8rem;
-            padding: 0.6rem 1.2rem;
+            color: rgba(255, 255, 255, 0.8) !important;
+            border-radius: 0.6rem;
+            padding: 0.8rem 1.2rem;
             transition: all 0.2s ease;
+            background: transparent !important;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
 
-            &:hover {
-                background: rgba($primary, 0.1);
-                color: $primary;
-                transform: translateX(5px);
+            &:hover,
+            &:focus,
+            &.active,
+            &:active {
+                // Styles moved to global override at the end of file for maximum specificity
+            }
+
+            i {
+                margin-right: 12px;
+                width: 20px;
+                text-align: center;
+                opacity: 1;
+                font-size: 0.9rem;
+                color: inherit;
             }
         }
+
+        .dropdown-divider {
+            margin: 0.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -243,9 +305,11 @@ body {
 ::-webkit-scrollbar {
     width: 8px;
 }
+
 ::-webkit-scrollbar-track {
     background: $dark;
 }
+
 ::-webkit-scrollbar-thumb {
     background: linear-gradient($primary, $secondary);
     border-radius: 10px;
@@ -260,12 +324,13 @@ body {
 .service-icon {
     width: 80px;
     height: 80px;
-    line-height: 80px;
-    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 20px;
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    display: inline-block;
     transition: all 0.3s ease;
 }
 
@@ -277,6 +342,7 @@ body {
 
 .hover-white {
     transition: all 0.3s ease;
+
     &:hover {
         color: white !important;
         padding-left: 5px;
@@ -284,16 +350,24 @@ body {
 }
 
 // Border Utilities
-.border-bottom-primary { border-bottom: 4px solid $primary !important; }
-.border-bottom-secondary { border-bottom: 4px solid $secondary !important; }
-.border-bottom-accent { border-bottom: 4px solid $accent !important; }
+.border-bottom-primary {
+    border-bottom: 4px solid $primary !important;
+}
+
+.border-bottom-secondary {
+    border-bottom: 4px solid $secondary !important;
+}
+
+.border-bottom-accent {
+    border-bottom: 4px solid $accent !important;
+}
 
 .hero-shapes {
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    
+
     .shape-1 {
         position: absolute;
         top: 20%;
@@ -304,7 +378,7 @@ body {
         filter: blur(60px);
         animation: floating 8s infinite ease-in-out;
     }
-    
+
     .shape-2 {
         position: absolute;
         bottom: 20%;
@@ -326,7 +400,7 @@ body {
     z-index: 9999;
     width: 280px;
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    
+
     &:hover {
         right: 0;
     }
@@ -344,7 +418,7 @@ body {
         writing-mode: vertical-rl;
         text-orientation: mixed;
         cursor: pointer;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
         white-space: nowrap;
         font-size: 0.8rem;
         letter-spacing: 1px;
@@ -357,8 +431,8 @@ body {
         padding: 2rem;
         width: 100%;
         border-radius: 12px 0 0 12px;
-        box-shadow: -10px 10px 30px rgba(0,0,0,0.5);
-        
+        box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.5);
+
         h6 {
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
@@ -371,8 +445,13 @@ body {
 }
 
 // Fix for floating cards in hero
-.-bottom-10 { bottom: -1rem; }
-.-right-10 { right: -1rem; }
+.-bottom-10 {
+    bottom: -1rem;
+}
+
+.-right-10 {
+    right: -1rem;
+}
 
 // Footer Styling
 .footer-premium {
@@ -390,7 +469,7 @@ body {
         transition: all 0.3s ease;
         font-size: 0.9rem;
         display: block;
-        
+
         &:hover {
             color: $primary !important;
             transform: translateX(8px);
@@ -403,7 +482,8 @@ body {
 }
 
 // Form Overrides for Dark Mode
-.form-control, .form-select {
+.form-control,
+.form-select {
     background: rgba(255, 255, 255, 0.05) !important;
     color: white !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -424,4 +504,11 @@ body {
 select option {
     background-color: $dark !important;
     color: white !important;
+}
+
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus {
+    background: #6366f1 !important;
+    background-image: linear-gradient(135deg, #6366f1, #ec4899) !important;
+    color: #ffffff !important;
 }

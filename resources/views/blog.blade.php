@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Insights & Updates | Blog - Umakant Dev')
+@section('meta_title', 'Insights & Updates | Blog - Umakant Dev')
+@section('meta_description', 'Stay updated with the latest trends, tips, and news from the world of web development and digital marketing.')
 
 @section('content')
 <div class="breadcrumb-section py-5 bg-dark bg-opacity-25 mb-5">
@@ -25,157 +26,78 @@
     </div>
 
     <div class="row g-4">
-        <!-- Blog Post 1 -->
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        @forelse($posts as $post)
+        <!-- Blog Post -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up">
             <div class="glass-card h-100 overflow-hidden border-0">
                 <div class="position-relative">
-                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="Web Development Trends" style="height: 220px; object-fit: cover;">
+                    @if($post->featured_image)
+                        <img src="{{ asset('storage/' . $post->featured_image) }}" class="card-img-top w-100" alt="{{ $post->title }}" style="height: 220px; object-fit: cover;">
+                    @else
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="{{ $post->title }}" style="height: 220px; object-fit: cover;">
+                    @endif
                     <div class="position-absolute top-0 start-0 m-3">
-                        <span class="badge bg-primary px-3 py-2 rounded-pill">Development</span>
+                        <span class="badge bg-primary px-3 py-2 rounded-pill">Digital Marketing</span>
                     </div>
                 </div>
                 <div class="p-4">
                     <div class="d-flex align-items-center gap-2 mb-3 text-muted small">
-                        <span><i class="far fa-calendar-alt text-primary me-1"></i> April 12, 2026</span>
+                        <span><i class="far fa-calendar-alt text-primary me-1"></i> {{ $post->created_at->format('M d, Y') }}</span>
                         <span>•</span>
                         <span><i class="far fa-user text-primary me-1"></i> Admin</span>
                     </div>
-                    <h4 class="fw-bold mb-3 text-white">Top 10 Web Development Trends for 2026</h4>
-                    <p class="text-muted small mb-4">Discover the latest technologies and methodologies that are shaping the future of web development this year.</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-4">Read More</a>
+                    <h4 class="fw-bold mb-3 text-white">
+                        <a href="{{ route('blog.show', $post->slug) }}" class="text-decoration-none text-white hover-primary transition">
+                            {{ $post->title }}
+                        </a>
+                    </h4>
+                    <p class="text-muted small mb-4">{{ $post->excerpt }}</p>
+                    <a href="{{ route('blog.show', $post->slug) }}" class="btn btn-outline-primary btn-sm rounded-pill px-4">Read More</a>
                 </div>
             </div>
         </div>
-
-        <!-- Blog Post 2 -->
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card h-100 overflow-hidden border-0">
-                <div class="position-relative">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="SEO Strategies" style="height: 220px; object-fit: cover;">
-                    <div class="position-absolute top-0 start-0 m-3">
-                        <span class="badge bg-secondary px-3 py-2 rounded-pill">SEO</span>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="d-flex align-items-center gap-2 mb-3 text-muted small">
-                        <span><i class="far fa-calendar-alt text-primary me-1"></i> April 10, 2026</span>
-                        <span>•</span>
-                        <span><i class="far fa-user text-primary me-1"></i> Admin</span>
-                    </div>
-                    <h4 class="fw-bold mb-3 text-white">Maximizing ROI with Result-Driven SEO</h4>
-                    <p class="text-muted small mb-4">Learn how to strategize your SEO campaigns to achieve maximum return on investment for your business.</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-4">Read More</a>
-                </div>
-            </div>
+        @empty
+        <div class="col-12 text-center py-5">
+            <h3 class="text-white">No posts found.</h3>
         </div>
-
-        <!-- Blog Post 3 -->
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="glass-card h-100 overflow-hidden border-0">
-                <div class="position-relative">
-                    <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="Digital Marketing" style="height: 220px; object-fit: cover;">
-                    <div class="position-absolute top-0 start-0 m-3">
-                        <span class="badge bg-info px-3 py-2 rounded-pill">Marketing</span>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="d-flex align-items-center gap-2 mb-3 text-muted small">
-                        <span><i class="far fa-calendar-alt text-primary me-1"></i> April 05, 2026</span>
-                        <span>•</span>
-                        <span><i class="far fa-user text-primary me-1"></i> Admin</span>
-                    </div>
-                    <h4 class="fw-bold mb-3 text-white">Social Media Marketing: Beyond the Posts</h4>
-                    <p class="text-muted small mb-4">Explore the deeper layers of social media marketing that drive engagement and brand loyalty among users.</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-4">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Blog Post 4 -->
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="glass-card h-100 overflow-hidden border-0">
-                <div class="position-relative">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="Clean Coding" style="height: 220px; object-fit: cover;">
-                    <div class="position-absolute top-0 start-0 m-3">
-                        <span class="badge bg-primary px-3 py-2 rounded-pill">Coding</span>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="d-flex align-items-center gap-2 mb-3 text-muted small">
-                        <span><i class="far fa-calendar-alt text-primary me-1"></i> March 28, 2026</span>
-                        <span>•</span>
-                        <span><i class="far fa-user text-primary me-1"></i> Admin</span>
-                    </div>
-                    <h4 class="fw-bold mb-3 text-white">The Importance of Clean Code in Business</h4>
-                    <p class="text-muted small mb-4">Why clean, sustainable code is essential for the long-term success and scalability of your business applications.</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-4">Read More</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Blog Post 5 -->
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card h-100 overflow-hidden border-0">
-                <div class="position-relative">
-                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="Team Work" style="height: 220px; object-fit: cover;">
-                    <div class="position-absolute top-0 start-0 m-3">
-                        <span class="badge bg-secondary px-3 py-2 rounded-pill">Agency</span>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="d-flex align-items-center gap-2 mb-3 text-muted small">
-                        <span><i class="far fa-calendar-alt text-primary me-1"></i> March 20, 2026</span>
-                        <span>•</span>
-                        <span><i class="far fa-user text-primary me-1"></i> Admin</span>
-                    </div>
-                    <h4 class="fw-bold mb-3 text-white">How We Deliver Results for Our Clients</h4>
-                    <p class="text-muted small mb-4">A look behind the scenes at our agile methodology and how we ensure successful project delivery every time.</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-4">Read More</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Blog Post 6 -->
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="glass-card h-100 overflow-hidden border-0">
-                <div class="position-relative">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" class="card-img-top w-100" alt="UI UX Design" style="height: 220px; object-fit: cover;">
-                    <div class="position-absolute top-0 start-0 m-3">
-                        <span class="badge bg-info px-3 py-2 rounded-pill">UI/UX</span>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="d-flex align-items-center gap-2 mb-3 text-muted small">
-                        <span><i class="far fa-calendar-alt text-primary me-1"></i> March 15, 2026</span>
-                        <span>•</span>
-                        <span><i class="far fa-user text-primary me-1"></i> Admin</span>
-                    </div>
-                    <h4 class="fw-bold mb-3 text-white">User Experience: The Heart of Every App</h4>
-                    <p class="text-muted small mb-4">Understanding why UI/UX design is the most critical factor in the adoption and success of any mobile application.</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-4">Read More</a>
-                </div>
-            </div>
-        </div>
+        @endforelse
     </div>
 
-    <!-- Pagination Placeholder -->
+    <!-- Pagination -->
     <div class="row pt-5" data-aos="fade-up">
-        <div class="col-12">
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link glass-card border-0 text-muted" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item active"><a class="page-link glass-card border-0 bg-primary" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link glass-card border-0 text-white" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link glass-card border-0 text-white" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link glass-card border-0 text-white" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+        <div class="col-12 d-flex justify-content-center pagination-premium">
+            {{ $posts->links() }}
         </div>
     </div>
+
+    <style>
+        .pagination-premium .pagination .page-item .page-link {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            margin: 0 5px;
+            border-radius: 8px !important;
+            padding: 10px 18px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-premium .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .pagination-premium .pagination .page-item.disabled .page-link {
+            background: rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .pagination-premium .pagination .page-item .page-link:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+    </style>
 </div>
 
 <section class="py-5 bg-dark bg-opacity-25 mt-5">

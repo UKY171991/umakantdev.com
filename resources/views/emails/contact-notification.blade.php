@@ -53,9 +53,12 @@
     </style>
 </head>
 <body>
+    @php
+        $siteName = \App\Models\Setting::get('site_name', 'ThinkBiz');
+    @endphp
     <div class="header">
-        <h1>📧 New Contact Inquiry</h1>
-        <p>You have received a new message from your website</p>
+        <h1>📧 New Inquiry for {{ $siteName }}</h1>
+        <p>You have received a new message from your website contact form.</p>
     </div>
     
     <div class="content">
@@ -80,14 +83,14 @@
         </div>
         
         <div class="field">
-            <div class="label">Received:</div>
+            <div class="label">Date:</div>
             <div class="value">{{ $contact->created_at->format('F j, Y \a\t g:i A') }}</div>
         </div>
     </div>
     
     <div class="footer">
-        <p>This message was sent from your website's contact form.</p>
-        <p>© {{ date('Y') }} Umakant Dev - All rights reserved</p>
+        <p>This is an automated notification sent from the <strong>{{ $siteName }}</strong> dashboard.</p>
+        <p>© {{ date('Y') }} {{ $siteName }}. All rights reserved.</p>
     </div>
 </body>
 </html>

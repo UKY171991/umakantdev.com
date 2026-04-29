@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin Panel')</title>
+    <title>@yield('title', 'Admin Panel') | {{ $siteSettings['site_name'] ?? 'Umakant Admin' }}</title>
+    
+    @if(isset($siteSettings['favicon']))
+        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $siteSettings['favicon']) }}">
+    @endif
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -38,7 +42,10 @@
 
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <a href="{{ route('admin.dashboard') }}" class="brand-link">
-            <span class="brand-text font-weight-light">Umakant Admin</span>
+            @if(isset($siteSettings['logo']))
+                <img src="{{ asset('storage/' . $siteSettings['logo']) }}" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            @endif
+            <span class="brand-text font-weight-light">{{ $siteSettings['site_name'] ?? 'Umakant Admin' }}</span>
         </a>
 
         <div class="sidebar">
@@ -89,6 +96,13 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="{{ route('admin.posts.index') }}" class="nav-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-newspaper"></i>
+                            <p>Blog Posts</p>
+                        </a>
                     </li>
                     
                     <li class="nav-item">
